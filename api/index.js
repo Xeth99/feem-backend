@@ -12,12 +12,8 @@ import { errorHandler } from "../middlewares/errorMiddleware.js";
 
 dotenv.config();
 
-try {
-    await connectDB();
-    console.log("Database connected");
-} catch (error) {
-  console.error("Database connection error:", error);
-}
+await connectDB();
+console.log("Database connected");
 
 const app = express();
 

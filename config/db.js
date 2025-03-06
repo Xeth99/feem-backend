@@ -16,8 +16,9 @@
 
 import mongoose from "mongoose";
 
-const MONGO_URI = process.env.MONGO_URI;
-if (!MONGO_URI) {
+const mongoUri = process.env.MONGO_URI;
+console.log(mongoUri);
+if (!mongoUri) {
   throw new Error("Please define the MONGO_URI environment variable");
 }
 
@@ -33,7 +34,7 @@ export const connectDB = async () => {
   }
 
   if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGO_URI, {
+    cached.promise = mongoose.connect(mongoUri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
