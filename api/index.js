@@ -1,4 +1,3 @@
-// api/index.js
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -30,14 +29,12 @@ app.get("/", (req, res) => {
 
 app.get("/favicon.ico", (req, res) => res.status(204).end());
 
-// Define your routes
-app.use("/api/users", userRouter);
-app.use("/api/movies", movieRouter);
-app.use("/api/categories", categoriesRouter);
-app.use("/api/upload", Uploadrouter);
+app.use("/users", userRouter);
+app.use("/movies", movieRouter);
+app.use("/categories", categoriesRouter);
+app.use("/upload", Uploadrouter);
 
 // Error handling middleware
 app.use(errorHandler);
 
-// Export the app as a serverless function
 export default serverless(app);
