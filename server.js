@@ -8,6 +8,8 @@ import categoriesRouter from "./routers/categoriesRouter.js";
 import Uploadrouter from "./controllers/uploadFile.js";
 import { errorHandler } from "./middlewares/errorMiddleware.js";
 
+const PORT = process.env.PORT || 5000;
+
 dotenv.config();
 
 connectDB();
@@ -29,6 +31,6 @@ app.use("/api/upload", Uploadrouter);
 // error handling middleware
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, console.log(`Server running in http://localhost/${PORT}/api`));
+
+app.listen(PORT, console.log(`Server running in http://localhost/${PORT}`));
