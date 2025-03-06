@@ -23,14 +23,12 @@ app.get("/", (req, res) => {
 });
 
 // other routes
-app.use("/api/users", userRouter);
-app.use("/api/movies", movieRouter);
-app.use("/api/categories", categoriesRouter);
-app.use("/api/upload", Uploadrouter);
+app.use("/users", userRouter);
+app.use("/movies", movieRouter);
+app.use("/categories", categoriesRouter);
+app.use("/upload", Uploadrouter);
 
 // error handling middleware
 app.use(errorHandler);
-
-
 
 app.listen(PORT, console.log(`Server running in http://localhost/${PORT}`));
