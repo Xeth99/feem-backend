@@ -14,14 +14,15 @@
 // };
 
 
+// config/db.js
 import mongoose from "mongoose";
 
-const mongoUri = process.env.MONGO_URI;
-console.log(mongoUri);
-if (!mongoUri) {
+const MONGO_URI = process.env.MONGO_URI;
+if (!MONGO_URI) {
   throw new Error("Please define the MONGO_URI environment variable");
 }
 
+// Use a global variable to cache the connection (works in serverless)
 let cached = global.mongoose;
 if (!cached) {
   cached = global.mongoose = { conn: null, promise: null };
@@ -29,17 +30,12 @@ if (!cached) {
 
 export const connectDB = async () => {
   if (cached.conn) {
-    console.log("Using cached database connection");
+    console.log("Using cached connection");
     return cached.conn;
   }
-
   if (!cached.promise) {
-    cached.promise = mongoose.connect(mongoUri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    cached.promise = mongoose.connect(MONGO_URI);
   }
-
   try {
     cached.conn = await cached.promise;
     console.log("MongoDB Connected");
@@ -50,3 +46,4 @@ export const connectDB = async () => {
     throw error;
   }
 };
+
