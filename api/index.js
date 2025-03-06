@@ -12,7 +12,12 @@ import Uploadrouter from "../controllers/uploadFile.js";
 import { errorHandler } from "../middlewares/errorMiddleware.js";
 
 dotenv.config();
-connectDB();
+
+try {
+  await connectDB();
+} catch (error) {
+  console.error("Database connection error:", error);
+}
 
 const app = express();
 
@@ -22,6 +27,8 @@ app.use(express.json());
 app.get("/", (req, res) => {
   res.send("Api is running...");
 });
+
+app.get("/favicon.ico", (req, res) => res.status(204).end());
 
 // Define your routes
 app.use("/api/users", userRouter);
@@ -33,4 +40,4 @@ app.use("/api/upload", Uploadrouter);
 app.use(errorHandler);
 
 // Export the app as a serverless function
-export default serverless(app);;
+export default serverless(app);
