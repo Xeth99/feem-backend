@@ -33,4 +33,4 @@ app.use("/api/upload", Uploadrouter);
 app.use(errorHandler);
 
 // Export the app as a serverless function
-export const handler = serverless(app);
+export default serverless(app);;
