@@ -13,7 +13,8 @@ import { errorHandler } from "../middlewares/errorMiddleware.js";
 dotenv.config();
 
 try {
-  await connectDB();
+    await connectDB();
+    console.log("Database connected");
 } catch (error) {
   console.error("Database connection error:", error);
 }
@@ -23,9 +24,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Api is running...");
-});
+// app.get("/", (req, res) => {
+//   res.send("Api is running...");
+// });
 
 app.get("/favicon.ico", (req, res) => res.status(204).end());
 
