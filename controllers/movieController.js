@@ -216,10 +216,10 @@ const updateMovie = asyncHandler(async (req, res) => {
 const deleteMovie = asyncHandler(async (req, res) => {
   try {
     // find movie by id
-    const oneMovie = await Movie.findById(req.params.id);
+    const movie = await Movie.findById(req.params.id);
     // if the movie is found, delete it
-    if (oneMovie) {
-      await oneMovie.remove();
+    if (movie) {
+      await movie.deleteOne();
       res.json({ message: "Movie deleted successfully" });
     }
     // if the movie is not found, send 404 error
