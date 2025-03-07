@@ -212,7 +212,7 @@ const deleteLikedMovie = asyncHandler(async (req, res) => {
     if (user) {
       // Check if the movie exists in the likedMovies array
       const movieExists = user.likedMovies.some(
-        (movie) => movie._id.toString() === req.params.movieId
+        (m) => m._id.toString() === req.params.movieId
       );
 
       if (!movieExists) {
@@ -221,7 +221,7 @@ const deleteLikedMovie = asyncHandler(async (req, res) => {
 
       // Filter out the movie from likedMovies
       user.likedMovies = user.likedMovies.filter(
-        (movie) => movie._id.toString() !== req.params.movieId
+        (m) => m._id.toString() !== req.params.movieId
       );
       await user.save();
       res.json({
