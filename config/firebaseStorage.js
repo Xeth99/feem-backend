@@ -22,6 +22,6 @@ initializeApp({
 });
 
 
-const storage = getStorage();
+const storage = getStorage().bucket();
 
 export default storage;

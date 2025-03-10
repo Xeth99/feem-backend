@@ -19,7 +19,8 @@ Uploadrouter.post("/", upload.single("file"), async (req, res) => {
     if (file) {
       const fileName = `${uuidv4()}${path.extname(file.originalname)}`;
 
-      const blob = storage.file(fileName);
+      const bucket = storage.bucket();
+      const blob = bucket.file(fileName);
       const blobStream = blob.createWriteStream({
         resumable: false,
         metadata: {
@@ -41,7 +42,7 @@ Uploadrouter.post("/", upload.single("file"), async (req, res) => {
     }
     // when there is no file
     else {
-      res.status(400).json({ message: "Please upload a file" });
+      res.status(400).json({ message: "Please, upload a file" });
     }
   } catch (error) {
     res.status(400).json({ message: error.message });
