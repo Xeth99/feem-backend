@@ -10,6 +10,6 @@ router.get("/", categoriesController.getCategories);
 // ******* ADMIN ROUTES *******
 router.post("/", protect, admin, categoriesController.createCategory);
 router.put("/:id", protect, admin, categoriesController.updatecategory);
-router.post("/:id", protect, admin, categoriesController.deletecategory);
+router.delete("/:id", protect, admin, categoriesController.deletecategory);
 
 export default router;

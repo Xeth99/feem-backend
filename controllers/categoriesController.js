@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import Categories from "../models/moviesModel.js";
+import Categories from "../models/categoriesModel.js";
 
 // ******* PUBLIC CONTROLLERS
 // @desc Get all categories
@@ -68,11 +68,11 @@ const deletecategory = asyncHandler(async (req, res) => {
 
     if (category) {
       // delete the category from DB
-      await category.remove();
+      await category.deleteOne();
       // send success message to the client
-      res.json({ message: "Category removed" });
+      res.json({ message: "Category deleted successfully!" });
     } else {
-      res.status(404).json({ message: "Categoru not found" });
+      res.status(404).json({ message: "Category not found" });
     }
   } catch (error) {
     res.status(400).json({ message: error.message });
