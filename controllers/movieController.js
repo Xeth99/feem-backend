@@ -238,7 +238,7 @@ const deleteMovie = asyncHandler(async (req, res) => {
 const deleteAllMovies = asyncHandler(async (req, res) => {
   try {
     // delete all movies
-    await MoviesData.deleteMany({});
+    await Movie.deleteMany({});
     res.json({ message: "All movies deleted!" });
   } catch (error) {
     res.status(400).json({ message: error.message });
