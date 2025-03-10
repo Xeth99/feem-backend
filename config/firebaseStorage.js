@@ -1,4 +1,5 @@
 import { getStorage } from "firebase-admin/storage";
+import admin from "firebase-admin";
 import { initializeApp, cert } from "firebase-admin/app";
 import dotenv from "dotenv";
 
@@ -22,6 +23,8 @@ initializeApp({
 });
 
 
-const storage = getStorage().bucket();
+const bucket = admin.storage().bucket();
 
-export default storage;
+// const storage = getStorage().bucket();
+
+export default bucket;

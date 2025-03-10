@@ -2,7 +2,7 @@ import express from "express";
 import multer from "multer";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
-import storage from "../config/firebaseStorage.js";
+import bucket from "../config/firebaseStorage.js";
 
 const Uploadrouter = express.Router();
 
@@ -19,7 +19,7 @@ Uploadrouter.post("/", upload.single("file"), async (req, res) => {
     if (file) {
       const fileName = `${uuidv4()}${path.extname(file.originalname)}`;
 
-      const bucket = storage.bucket();
+      // const bucket = storage.bucket();
       const blob = bucket.file(fileName);
       const blobStream = blob.createWriteStream({
         resumable: false,
