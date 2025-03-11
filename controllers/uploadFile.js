@@ -34,6 +34,7 @@ Uploadrouter.post("/", upload.single("file"), async (req, res) => {
       // if sucess
       blobStream.on("finish", () => {
         // get the public url
+        // const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${storage.name}/o/${fileName}?alt=media`;
         const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURIComponent(fileName)}?alt=media`;
         // return the file name and its public URL
         res.status(200).json(publicUrl);
