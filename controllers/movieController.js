@@ -38,7 +38,7 @@ const getMovies = asyncHandler(async (req, res) => {
 
     // find movies by query, skip, and limit
     const movies = await Movie.find(query)
-      .sort({ createdAt: -1 })
+      // .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
 
