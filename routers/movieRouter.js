@@ -7,24 +7,46 @@ const router = express.Router();
 
 // ************ PUBLIC ROUTES FOR TMBD ************
 // popular movies
-router.get('/tmdb/popular', async (req, res) => {
+router.get("/tmdb/popular", async (req, res) => {
     try {
-      const data = await fetchFromTMDB('/movie/popular');
+      const data = await fetchFromTMDB("/movie/popular");
       res.json(data.results);
     } catch (error) {
-      res.status(500).json({ error: 'Failed to fetch from TMDB' });
+      console.error("TMDB Error:", error.response?.data || error.message);
+      res.status(500).json({ 
+        error: "Failed to fetch movies",
+        details: error.message 
+      });
     }
-  });
-
-  router.get('/tmdb/:id', async (req, res) => {
-  try {
-    const data = await fetchFromTMDB(`/movie/${req.params.id}`);
-    res.json(data);
-  } catch (error) {
-    res.status(500).json({ error: 'Movie not found' });
-  }
+});
+  
+// get movie by id
+router.get("/tmdb/:id", async (req, res) => {
+    try {
+      const data = await fetchFromTMDB(`/movie/${req.params.id}`);
+      res.json(data);
+    } catch (error) {
+      console.error("TMDB Error:", error.response?.data || error.message);
+      res.status(500).json({ 
+        error: "Failed to fetch movie",
+        details: error.message 
+      });
+    }
 });
 
+// get top rated movies
+router.get("/tmdb/rated/top", async (req, res) => {
+    try {
+      const data = await fetchFromTMDB("/movie/top_rated");
+      res.json(data.results);
+    } catch (error) {
+      console.error("TMDB Error:", error.response?.data || error.message);
+      res.status(500).json({ 
+        error: "Failed to fetch movies",
+        details: error.message 
+      });
+    }
+});
 
 // ************ PUBLIC ROUTES ************
 router.post("/import", moviesController.importMovies);
@@ -38,8 +60,8 @@ router.post("/:id/reviews", protect, moviesController.createMovieReview);
 
 // ******* ADMIN ROUTES *******
 router.put("/:id", protect, admin, moviesController.updateMovie);
-router.delete("/:id", protect, admin, moviesController.deleteMovie)
-router.delete("/", protect, admin, moviesController.deleteAllMovies)
-router.post("/", protect, admin, moviesController.createMovie)
+router.delete("/:id", protect, admin, moviesController.deleteMovie);
+router.delete("/", protect, admin, moviesController.deleteAllMovies);
+router.post("/", protect, admin, moviesController.createMovie);
 
 export default router;
