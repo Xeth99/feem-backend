@@ -1,8 +1,30 @@
 import express from "express";
 import * as moviesController from "../controllers/movieController.js";
 import { protect, admin } from "../middlewares/auth.js";
+import fetchFromTMDB from "../config/tmdbServices.js";
 
 const router = express.Router();
+
+// ************ PUBLIC ROUTES FOR TMBD ************
+// popular movies
+router.get('/tmdb/popular', async (req, res) => {
+    try {
+      const data = await fetchFromTMDB('/movie/popular');
+      res.json(data.results);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch from TMDB' });
+    }
+  });
+
+  router.get('/tmdb/:id', async (req, res) => {
+  try {
+    const data = await fetchFromTMDB(`/movie/${req.params.id}`);
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: 'Movie not found' });
+  }
+});
+
 
 // ************ PUBLIC ROUTES ************
 router.post("/import", moviesController.importMovies);
