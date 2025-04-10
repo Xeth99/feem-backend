@@ -9,22 +9,17 @@ const router = express.Router();
 // get all movies
 router.get("/tmdb/now_playing", async (req, res) => {
   try {
-    const { language, region, page, with_genres } = req.query;
-    const data = await fetchFromTMDB("/movie/now_playing", {
-      language,
-      region,
-      page,
-      with_genres,
-    });
+    // const { language, region, page, with_genres } = req.query;
+    const data = await fetchFromTMDB("/movie/now_playing");
 
-    let filteredMovies = data.results;
-    if (req.query.year) {
-      filteredMovies = data.results.filter((movie) =>
-        movie.release_date?.startsWith(req.query.year)
-      );
-    }
+    // let filteredMovies = data.results;
+    // if (req.query.year) {
+    //   filteredMovies = data.results.filter((movie) =>
+    //     movie.release_date?.startsWith(req.query.year)
+    //   );
+    // }
 
-    res.json(filteredMovies);
+    res.json(data);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch all movies" });
   }
