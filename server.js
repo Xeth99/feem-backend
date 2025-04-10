@@ -16,9 +16,14 @@ connectDB();
 
 const app = express();
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://feem.onrender.com'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  origin: [
+    'http://localhost:3000', 
+    'https://feem.onrender.com'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Add 'OPTIONS' for preflight
   allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true, // Enable if using cookies/auth tokens
+  optionsSuccessStatus: 200 // Legacy browsers choke on 204
 }));
 app.use(express.json());
 
