@@ -7,22 +7,26 @@ const router = express.Router();
 
 // ************ PUBLIC ROUTES FOR TMBD ************
 // get all movies
-router.get("/tmdb", async (req, res) => {
-  const { language, page, region, with_genres } = req.query;
+router.get("/tmdb/now_playing", async (req, res) => {
   try {
+    const { language, region, page, with_genres } = req.query;
     const data = await fetchFromTMDB("/movie/now_playing", {
       language,
       region,
       page,
       with_genres,
     });
-    res.json(data.results);
+
+    let filteredMovies = data.results;
+    if (req.query.year) {
+      filteredMovies = data.results.filter((movie) =>
+        movie.release_date?.startsWith(req.query.year)
+      );
+    }
+
+    res.json(filteredMovies);
   } catch (error) {
-    console.error("TMDB Error:", error.response?.data || error.message);
-    res.status(500).json({
-      error: "Failed to fetch movies",
-      details: error.message,
-    });
+    res.status(500).json({ error: "Failed to fetch movies" });
   }
 });
 // popular movies
