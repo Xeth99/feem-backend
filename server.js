@@ -20,79 +20,16 @@ app.use(cors({
     'http://localhost:3000', 
     'https://feem.onrender.com'
   ],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Add 'OPTIONS' for preflight
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true, // Enable if using cookies/auth tokens
-  optionsSuccessStatus: 200 // Legacy browsers choke on 204
+  credentials: true,
+  optionsSuccessStatus: 200
 }));
 app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Api is running...");
 });
-
-// app.get("/tmdb/now_playing", async (req, res) => {
-//   try {
-//     const { language, region, page, with_genres } = req.query;
-//     const data = await fetchFromTMDB("/movie/now_playing", {
-//       language,
-//       region,
-//       page,
-//       with_genres,
-//     });
-
-//     let filteredMovies = data.results;
-//     if (req.query.year) {
-//       filteredMovies = data.results.filter((movie) =>
-//         movie.release_date?.startsWith(req.query.year)
-//       );
-//     }
-
-//     res.json(filteredMovies);
-//   } catch (error) {
-//     res.status(500).json({ error: "Failed to fetch movies" });
-//   }
-// });
-
-// app.get("/tmdb/popular", async (req, res) => {
-//   try {
-//     const data = await fetchFromTMDB("/movie/popular");
-//     res.json(data.results);
-//   } catch (error) {
-//     console.error("TMDB Error:", error.response?.data || error.message);
-//     res.status(500).json({
-//       error: "Failed to fetch movies",
-//       details: error.message,
-//     });
-//   }
-// });
-
-// app.get("/tmdb/:id", async (req, res) => {
-//   try {
-//     const data = await fetchFromTMDB(`/movie/${req.params.id}`);
-//     res.json(data);
-//   } catch (error) {
-//     console.error("TMDB Error:", error.response?.data || error.message);
-//     res.status(500).json({
-//       error: "Failed to fetch movie",
-//       details: error.message,
-//     });
-//   }
-// });
-
-// // get top rated movies
-// app.get("/tmdb/rated/top", async (req, res) => {
-//   try {
-//     const data = await fetchFromTMDB("/movie/top_rated");
-//     res.json(data.results);
-//   } catch (error) {
-//     console.error("TMDB Error:", error.response?.data || error.message);
-//     res.status(500).json({
-//       error: "Failed to fetch movies",
-//       details: error.message,
-//     });
-//   }
-// });
 
 // other routes
 app.use("/users", userRouter);

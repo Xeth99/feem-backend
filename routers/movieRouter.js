@@ -26,7 +26,7 @@ router.get("/tmdb/now_playing", async (req, res) => {
 
     res.json(filteredMovies);
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch movies" });
+    res.status(500).json({ error: "Failed to fetch all movies" });
   }
 });
 // popular movies
@@ -37,7 +37,7 @@ router.get("/tmdb/popular", async (req, res) => {
   } catch (error) {
     console.error("TMDB Error:", error.response?.data || error.message);
     res.status(500).json({
-      error: "Failed to fetch movies",
+      error: "Failed to fetch popular movies",
       details: error.message,
     });
   }
@@ -51,7 +51,7 @@ router.get("/tmdb/:id", async (req, res) => {
   } catch (error) {
     console.error("TMDB Error:", error.response?.data || error.message);
     res.status(500).json({
-      error: "Failed to fetch movie",
+      error: "Failed to fetch requested movie",
       details: error.message,
     });
   }
@@ -65,7 +65,7 @@ router.get("/tmdb/rated/top", async (req, res) => {
   } catch (error) {
     console.error("TMDB Error:", error.response?.data || error.message);
     res.status(500).json({
-      error: "Failed to fetch movies",
+      error: "Failed to fetch top-rated movies",
       details: error.message,
     });
   }
