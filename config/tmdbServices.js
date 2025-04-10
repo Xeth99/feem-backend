@@ -17,6 +17,7 @@ const fetchFromTMDB = async (endpoint, params = {}) => {
     return response.data;
   } catch (error) {
     console.error('TMDB API Error:', error.message);
+    console.log(error.response.data);
     throw error;
   }
 };
