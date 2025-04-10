@@ -5,6 +5,7 @@ dotenv.config();
 
 const TMDB_API_KEY = process.env.TMDB_API_KEY;
 const TMDB_BASE_URL = process.env.TMDB_API_URL;
+console.log(TMDB_API_KEY, TMDB_BASE_URL);
 
 // const fetchFromTMDB = async (endpoint, params = {}) => {
 //   try {
@@ -24,14 +25,13 @@ const TMDB_BASE_URL = process.env.TMDB_API_URL;
 
 const fetchFromTMDB = async (endpoint, params = {}) => {
   try {
-    // ✅ Ensure TMDB_API_KEY is loaded
     if (!process.env.TMDB_API_KEY) {
       throw new Error("TMDB_API_KEY is missing in environment variables");
     }
 
-    const response = await axios.get(`${TMDB_BASE_URL}${endpoint}`, {
+    const response = await axios.get(`${process.env.TMDB_API_URL}${endpoint}`, {
       params: {
-        api_key: TMDB_API_KEY, // Critical!
+        api_key: process.env.TMDB_API_KEY, // Critical!
         ...params, // Spread user-provided params (language, page, etc.)
       },
       timeout: 10000, // 5s timeout
