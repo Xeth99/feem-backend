@@ -39,18 +39,27 @@ router.get("/tmdb/popular", async (req, res) => {
 });
 
 // get movie by id
-router.get("/tmdb/:id", async (req, res) => {
+router.get("/tmdb/movie/:id/with-video", async (req, res) => {
+  const { id } = req.params;
   try {
-    const data = await fetchFromTMDB(`/movie/${req.params.id}`);
-    res.json(data);
-  } catch (error) {
-    console.error("TMDB Error:", error.response?.data || error.message);
-    res.status(500).json({
-      error: "Failed to fetch requested movie",
-      details: error.message,
+    const [movieData, videoData] = await Promise.all([
+      fetchFromTMDB(`/movie/${id}`),
+      fetchFromTMDB(`/movie/${id}/videos`),
+    ]);
+
+    const trailer = videoData.results.find(
+      (vid) => vid.site === "YouTube" && vid.type === "Trailer"
+    );
+
+    res.json({
+      ...movieData,
+      trailerUrl: trailer ? `https://www.youtube.com/watch?v=${trailer.key}` : null,
     });
+  } catch (error) {
+    res.status(500).json({ error: "Could not fetch movie with trailer" });
   }
 });
+
 
 // get top rated movies
 router.get("/tmdb/rated/top", async (req, res) => {
