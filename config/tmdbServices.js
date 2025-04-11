@@ -5,7 +5,6 @@ dotenv.config();
 
 const TMDB_API_KEY = process.env.TMDB_API_KEY;
 const TMDB_BASE_URL = process.env.TMDB_API_URL;
-console.log(TMDB_API_KEY, TMDB_BASE_URL);
 
 // const fetchFromTMDB = async (endpoint, params = {}) => {
 //   try {
@@ -47,6 +46,8 @@ const fetchFromTMDB = async (endpoint, params = {}) => {
       status: error.response?.status,
       data: error.response?.data, // TMDB's error response (e.g., rate limits)
     });
+    console.log("Requesting TMDB URL:", `${TMDB_BASE_URL}${endpoint}`);
+    console.log("Using TMDB API Key:", TMDB_API_KEY?.slice(0, 5) + '...');
     throw error; // Re-throw for the route to handle
   }
 };
