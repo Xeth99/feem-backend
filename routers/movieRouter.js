@@ -9,17 +9,25 @@ const router = express.Router();
 // get all movies
 router.get("/tmdb/now_playing", async (req, res) => {
   try {
-    // const { language, region, page, with_genres } = req.query;
-    const data = await fetchFromTMDB("/movie/now_playing");
+    const { language, region, page, with_genres, year } = req.query;
+    const data = await fetchFromTMDB("/movie/now_playing", {
+      language,
+      region,
+      page,
+      with_genres,
+    });
 
-    // let filteredMovies = data.results;
-    // if (req.query.year) {
-    //   filteredMovies = data.results.filter((movie) =>
-    //     movie.release_date?.startsWith(req.query.year)
-    //   );
-    // }
+    let filteredMovies = data.results;
+    if (req.query.year) {
+      filteredMovies = data.results.filter((movie) =>
+        movie.release_date?.startsWith(req.query.year)
+      );
+    }
 
-    res.json(data);
+    res.json({
+      ...data,
+      results: filteredMovies,
+    });
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch all movies" });
   }
@@ -42,24 +50,30 @@ router.get("/tmdb/popular", async (req, res) => {
 router.get("/tmdb/movie/:id/with-video", async (req, res) => {
   const { id } = req.params;
   try {
-    const [movieData, videoData] = await Promise.all([
+    const [movieData, videoData] = await Promise.allSettled([
       fetchFromTMDB(`/movie/${id}`),
       fetchFromTMDB(`/movie/${id}/videos`),
     ]);
 
-    const trailer = videoData.results.find(
+    if (movieData.status !== "fulfilled" || videoData.status !== "fulfilled") {
+      throw new Error("One or both requests failed");
+    }
+
+    const trailer = videoData.value.results.find(
       (vid) => vid.site === "YouTube" && vid.type === "Trailer"
     );
 
     res.json({
-      ...movieData,
-      trailerUrl: trailer ? `https://www.youtube.com/watch?v=${trailer.key}` : null,
+      ...movieData.value,
+      trailerUrl: trailer
+        ? `https://www.youtube.com/watch?v=${trailer.key}`
+        : null,
     });
   } catch (error) {
+    console.error("Error fetching movie with trailer:", error.message);
     res.status(500).json({ error: "Could not fetch movie with trailer" });
   }
 });
-
 
 // get top rated movies
 router.get("/tmdb/rated/top", async (req, res) => {

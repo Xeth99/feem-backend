@@ -18,6 +18,7 @@ const app = express();
 app.use(cors({
   origin: [
     'http://localhost:3000', 
+    'http://localhost:64645',
     'https://feem.onrender.com'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
